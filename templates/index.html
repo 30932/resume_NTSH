@@ -1,18 +1,31 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>讀書計畫</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首頁</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <h1>我的讀書計畫</h1>
-    <ul>
-        <li><a href="/competition">競賽經驗</a></li>
-        <li><a href="/activities">課外活動</a></li>
-        <li><a href="/leadership">幹部經驗</a></li>
-        <li><a href="/club">社團經驗</a></li>
-        <li><a href="/electives">多元選修課程</a></li>
-        <li><a href="/ai">AI應用</a></li>
-    </ul>
+    <nav>
+        <a href="{{ url_for('index') }}">首頁</a>
+        <a href="{{ url_for('competition') }}">競賽</a>
+        <a href="{{ url_for('activities') }}">活動</a>
+        <a href="{{ url_for('leadership') }}">領導力</a>
+        <a href="{{ url_for('club') }}">俱樂部</a>
+        <a href="{{ url_for('electives') }}">選修課程</a>
+        <a href="{{ url_for('ai') }}">人工智慧</a>
+    </nav>
+
+    <div class="container">
+        <section>
+            <h1>歡迎來到我們的網站!</h1>
+            <p>這是首頁的簡單介紹。</p>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2025 Your Company. All rights reserved.</p>
+    </footer>
 </body>
 </html>
