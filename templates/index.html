@@ -1,31 +1,93 @@
+<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>首頁</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>30932 李佳頤</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: radial-gradient(circle at 20% 20%, #00111a, #000);
+            overflow: hidden;
+            font-family: "Noto Sans TC", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        a {
+            display: inline-block;
+            margin: 8px;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            text-decoration: none;
+            transition: 0.3s;
+            backdrop-filter: blur(4px);
+        }
+
+        a:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* 星空動畫 */
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+    </style>
 </head>
 <body>
-    <nav>
-        <a href="{{ url_for('index') }}">首頁</a>
-        <a href="{{ url_for('competition') }}">競賽</a>
-        <a href="{{ url_for('activities') }}">活動</a>
-        <a href="{{ url_for('leadership') }}">領導力</a>
-        <a href="{{ url_for('club') }}">俱樂部</a>
-        <a href="{{ url_for('electives') }}">選修課程</a>
-        <a href="{{ url_for('ai') }}">人工智慧</a>
-    </nav>
+    <h1>30932 李佳頤</h1>
+    <p>選擇一個主題探索吧 🌠</p>
 
-    <div class="container">
-        <section>
-            <h1>新北高中30932李佳頤</h1>
-            <p>這是首頁的簡單介紹。</p>
-        </section>
+    <div>
+        <a href="/competition">比賽</a>
+        <a href="/activities">活動</a>
+        <a href="/leadership">領導力</a>
+        <a href="/club">社團</a>
+        <a href="/electives">選修課</a>
+        <a href="/ai">AI 專區</a>
     </div>
 
-    <footer>
-        <p>© 2025 Your Company. All rights reserved.</p>
-    </footer>
+    <script>
+        // 產生隨機星星
+        for (let i = 0; i < 120; i++) {
+            const star = document.createElement("div");
+            star.classList.add("star");
+            star.style.top = Math.random() * 100 + "vh";
+            star.style.left = Math.random() * 100 + "vw";
+            star.style.animationDelay = Math.random() * 2 + "s";
+            document.body.appendChild(star);
+        }
+    </script>
 </body>
 </html>
