@@ -1,39 +1,285 @@
 
-from flask import Flask, render_template
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>讀書計畫 - 30932李佳頤</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* 基本重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-app = Flask(__name__)
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            background: radial-gradient(circle at top, #273469 0%, #050816 55%, #02040a 100%);
+            color: #fff;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-# 建立問答集 Store questions and answers in a simple list for demonstration purposes
-questions_answers = {
-    "蘋果": "apple",
-    "apple": "蘋果",
-    "香蕉": "banana",
-    "banana": "香蕉",
-    "貓": "cat",
-    "cat": "貓",
-    "狗": "dog",
-    "dog": "狗",
-    "書": "book",
-    "book": "書",
-    "桌子": "table",
-    "table": "桌子",
-    "椅子": "chair",
-    "chair": "椅子",
-    "房子": "house",
-    "house": "房子",
-    "汽車": "car",
-    "car": "汽車",
-    "學校": "school",
-    "school": "學校",
-    "老師": "teacher",
-    "teacher": "老師",
-    "學生": "student",
-    "student": "學生",
-    "咖啡": "coffee",
-    "coffee": "咖啡",
-    "茶": "tea",
-    "tea": "茶",
-    "醫生": "doctor",
+        /* 星空容器 */
+        .sky {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        /* 靜態星星：用多重 box-shadow 製造 */
+        .stars,
+        .stars2,
+        .stars3 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 2px;
+            height: 2px;
+            background: transparent;
+            box-shadow:
+                20vw 10vh #fff,
+                35vw 40vh #d9e6ff,
+                55vw 15vh #ffffff,
+                75vw 30vh #cbd5ff,
+                10vw 60vh #ffffff,
+                45vw 75vh #d9e6ff,
+                80vw 55vh #ffffff,
+                60vw 85vh #cbd5ff;
+            animation: twinkle 4s infinite alternate;
+            opacity: 0.8;
+        }
+
+        .stars2 {
+            box-shadow:
+                15vw 20vh #ffffff,
+                30vw 70vh #d9e6ff,
+                50vw 50vh #ffffff,
+                85vw 20vh #cbd5ff,
+                5vw 80vh #ffffff,
+                65vw 65vh #d9e6ff,
+                90vw 40vh #ffffff,
+                40vw 90vh #cbd5ff;
+            animation-duration: 6s;
+            animation-delay: 1s;
+            opacity: 0.5;
+        }
+
+        .stars3 {
+            box-shadow:
+                25vw 30vh #ffffff,
+                45vw 10vh #d9e6ff,
+                70vw 75vh #ffffff,
+                20vw 90vh #cbd5ff,
+                55vw 65vh #ffffff,
+                10vw 45vh #d9e6ff,
+                95vw 60vh #ffffff,
+                35vw 55vh #cbd5ff;
+            animation-duration: 8s;
+            animation-delay: 0.5s;
+            opacity: 0.3;
+        }
+
+        @keyframes twinkle {
+            0% { transform: scale(1); opacity: 0.4; }
+            100% { transform: scale(1.4); opacity: 1; }
+        }
+
+        /* 流星 */
+        .shooting-star {
+            position: absolute;
+            top: -10vh;
+            width: 2px;
+            height: 2px;
+            background: linear-gradient(90deg, #ffffff, rgba(255,255,255,0));
+            border-radius: 999px;
+            opacity: 0;
+            transform: translate3d(0,0,0);
+            pointer-events: none;
+            box-shadow: 0 0 6px #ffffff;
+            animation: shooting 2s linear infinite;
+        }
+
+        /* 多個流星使用不同 delay 與位置 */
+        .shooting-star:nth-child(1) { left: 10vw; animation-delay: 0.2s; }
+        .shooting-star:nth-child(2) { left: 40vw; animation-delay: 1.1s; }
+        .shooting-star:nth-child(3) { left: 70vw; animation-delay: 2.3s; }
+        .shooting-star:nth-child(4) { left: 85vw; animation-delay: 3.5s; }
+        .shooting-star:nth-child(5) { left: 25vw; animation-delay: 4.4s; }
+
+        @keyframes shooting {
+            0% {
+                opacity: 0;
+                transform: translate3d(0, 0, 0) scaleX(0);
+            }
+            10% {
+                opacity: 1;
+                transform: translate3d(-10vw, 10vh, 0) scaleX(1);
+            }
+            50% {
+                opacity: 1;
+                transform: translate3d(-40vw, 40vh, 0) scaleX(1.4);
+            }
+            100% {
+                opacity: 0;
+                transform: translate3d(-60vw, 65vh, 0) scaleX(0.2);
+            }
+        }
+
+        /* 主內容排版 */
+        .content-wrapper {
+            position: relative;
+            height: 100vh;
+            padding: 40px 8vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 40px;
+            letter-spacing: 0.12em;
+            margin-bottom: 18px;
+            text-transform: none;
+            font-weight: 600;
+            text-shadow: 0 0 14px rgba(255, 255, 255, 0.35);
+        }
+
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.75;
+            margin-bottom: 26px;
+        }
+
+        nav {
+            margin-top: 10px;
+        }
+
+        ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        li {
+            /* 容器不做太大，靠 a 來呈現 */
+        }
+
+        a {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 18px;
+            border-radius: 999px;
+            text-decoration: none;
+            color: #e2e8ff;
+            font-size: 14px;
+            backdrop-filter: blur(12px);
+            background: rgba(20, 28, 58, 0.68);
+            border: 1px solid rgba(226, 232, 255, 0.22);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
+            transition: all 0.25s ease;
+        }
+
+        a::before {
+            content: "✦";
+            font-size: 10px;
+            margin-right: 6px;
+            opacity: 0.9;
+        }
+
+        a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.9);
+            background: rgba(63, 81, 181, 0.9);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.55);
+        }
+
+        a:active {
+            transform: translateY(-1px) scale(0.98);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.85);
+        }
+
+        /* 右下角小標語（可改） */
+        .corner-note {
+            position: absolute;
+            right: 8vw;
+            bottom: 26px;
+            font-size: 12px;
+            opacity: 0.6;
+        }
+
+        /* RWD */
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 28px 18px;
+                justify-content: flex-start;
+            }
+
+            h1 {
+                font-size: 28px;
+                margin-top: 40px;
+            }
+
+            .subtitle {
+                font-size: 14px;
+            }
+
+            ul {
+                gap: 10px;
+            }
+
+            a {
+                font-size: 13px;
+                padding: 8px 14px;
+            }
+
+            .corner-note {
+                right: 18px;
+                bottom: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 星空背景 -->
+    <div class="sky">
+        <div class="stars"></div>
+        <div class="stars2"></div>
+        <div class="stars3"></div>
+
+        <!-- 多顆流星 -->
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+    </div>
+
+    <!-- 主內容 -->
+    <div class="content-wrapper">
+        <h1>30932 李佳頤</h1>
+        <div class="subtitle">讀書計畫與學習歷程導覽</div>
+
+        <nav>
+            <ul>
+                <li><a href="/competition">競賽經驗</a></li>
+                <li><a href="/activities">課外活動</a></li>
+                <li><a href="/leadership">幹部經驗</a></li>
+                <li><a href="/club">社團經驗</a></li>
+                <li><a href="/electives">多元選修課程</a></li>
+                <li><a href="/ai">AI 應用</a></li>
+                <li><a href="/ask">字庫問答</a></li>
+            </ul>
+        </nav>
+
+        <div class="corner-note">在星空下，紀錄每一步成長。</div>
+    </div>
+</body>
+</html>
     "doctor": "醫生",
     "護士": "nurse",
     "sad": "難過"
