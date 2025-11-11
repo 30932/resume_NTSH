@@ -1,18 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>讀書計畫</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>新北高中李佳頤的讀書計畫</h1>
-    <ul>
-        <li><a href="/competition">競賽經驗</a></li>
-        <li><a href="/activities">課外活動</a></li>
-        <li><a href="/leadership">幹部經驗</a></li>
-        <li><a href="/club">社團經驗</a></li>
-        <li><a href="/electives">多元選修課程</a></li>
-        <li><a href="/ai">AI應用</a></li>
-        <li><a href="/ask">字庫問答</a></li>
-    </ul>
+    <div class="sky">
+        <div class="stars"></div>
+        <div class="stars2"></div>
+        <div class="stars3"></div>
+    </div>
+
+    <div class="content-wrapper">
+        <h1>新北高中李佳頤的讀書計畫</h1>
+        <ul>
+            <li><a href="/competition">競賽經驗</a></li>
+            <li><a href="/activities">課外活動</a></li>
+            <li><a href="/leadership">幹部經驗</a></li>
+            <li><a href="/club">社團經驗</a></li>
+            <li><a href="/electives">多元選修課程</a></li>
+            <li><a href="/ai">AI應用</a></li>
+            <li><a href="/ask">字庫問答</a></li>
+        </ul>
+    </div>
+
+    <script>
+        // 這是流星效果
+        function createShootingStar() {
+            const shootingStar = document.createElement('div');
+            shootingStar.classList.add('shooting-star');
+            document.body.appendChild(shootingStar);
+
+            setTimeout(() => {
+                shootingStar.remove();
+            }, 2000);
+        }
+
+        // 每隔1秒創建一顆流星
+        setInterval(createShootingStar, 1000);
+    </script>
 </body>
 </html>
